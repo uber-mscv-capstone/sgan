@@ -11,6 +11,9 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 
+import sys
+sys.path.append('../sgan/')
+
 from sgan.data.loader import data_loader
 from sgan.losses import gan_g_loss, gan_d_loss, l2_loss
 from sgan.losses import displacement_error, final_displacement_error
@@ -49,7 +52,7 @@ parser.add_argument('--mlp_dim', default=1024, type=int)
 # Generator Options
 parser.add_argument('--encoder_h_dim_g', default=64, type=int)
 parser.add_argument('--decoder_h_dim_g', default=128, type=int)
-parser.add_argument('--noise_dim', default=None, type=int_tuple)
+parser.add_argument('--noise_dim', default=(0,), type=int_tuple)
 parser.add_argument('--noise_type', default='gaussian')
 parser.add_argument('--noise_mix_type', default='ped')
 parser.add_argument('--clipping_threshold_g', default=0, type=float)
@@ -124,9 +127,9 @@ def main(args):
     if args.num_epochs:
         args.num_iterations = int(iterations_per_epoch * args.num_epochs)
 
-    logger.info(
-        'There are {} iterations per epoch'.format(iterations_per_epoch)
-    )
+    #logger.info(
+    #    'There are {} iterations per epoch'.format(iterations_per_epoch)
+    #)
 
     generator = TrajectoryGenerator(
         obs_len=args.obs_len,
@@ -149,8 +152,8 @@ def main(args):
 
     generator.apply(init_weights)
     generator.type(float_dtype).train()
-    logger.info('Here is the generator:')
-    logger.info(generator)
+    #logger.info('Here is the generator:')
+    #logger.info(generator)
 
     discriminator = TrajectoryDiscriminator(
         obs_len=args.obs_len,
@@ -165,8 +168,8 @@ def main(args):
 
     discriminator.apply(init_weights)
     discriminator.type(float_dtype).train()
-    logger.info('Here is the discriminator:')
-    logger.info(discriminator)
+    #logger.info('Here is the discriminator:')
+    #logger.info(discriminator)
 
     g_loss_fn = gan_g_loss
     d_loss_fn = gan_d_loss

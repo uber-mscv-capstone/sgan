@@ -36,7 +36,7 @@ def seq_collate(data):
     return tuple(out)
 
 
-def read_file(_path, delim='\t'):
+def read_file(_path, delim='tab'):
     data = []
     if delim == 'tab':
         delim = '\t'
