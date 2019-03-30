@@ -3,3 +3,4 @@ datasets/
 models/
 sgan/__pycache__/
 sgan/data/__pycache__/
+*.zip
