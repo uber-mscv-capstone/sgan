@@ -89,11 +89,11 @@ def evaluate(args, loader, generator, num_samples):
 
             ade_outer.append(ade_sum)
             fde_outer.append(fde_sum)
-        print ("ADE: ", ade_outer, total_traj, args.pred_len)
-	print ("FDE: ", fde_outer, total_traj)
-	ade = sum(ade_outer) / (total_traj * args.pred_len)
-        fde = sum(fde_outer) / (total_traj)
-        return ade, fde
+    print ("ADE: ", ade_outer, total_traj, args.pred_len)
+    print ("FDE: ", fde_outer, total_traj)
+    ade = sum(ade_outer) / (total_traj * args.pred_len)
+    fde = sum(fde_outer) / (total_traj)
+    return ade, fde
 
 
 def main(args):
