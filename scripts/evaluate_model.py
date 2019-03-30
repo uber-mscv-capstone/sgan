@@ -77,20 +77,23 @@ def evaluate(args, loader, generator, num_samples):
                 pred_traj_fake = relative_to_abs(
                     pred_traj_fake_rel, obs_traj[-1]
                 )
-                ade.append(displacement_error(
+                ade_error = displacement_error(
                     pred_traj_fake, pred_traj_gt, mode='raw'
-                ))
-                fde.append(final_displacement_error(
+                )
+                print ("ADE Error: ", ade_error)
+                ade.append(ade_error)
+                fde_error = final_displacement_error(
                     pred_traj_fake[-1], pred_traj_gt[-1], mode='raw'
-                ))
+                )
+                fde.append(fde_error)
+                print("FDE Error: ", fde_error)
 
+            # print ("ADE: ", ade)
             ade_sum = evaluate_helper(ade, seq_start_end)
             fde_sum = evaluate_helper(fde, seq_start_end)
 
             ade_outer.append(ade_sum)
             fde_outer.append(fde_sum)
-    print ("ADE: ", ade_outer, total_traj, args.pred_len)
-    print ("FDE: ", fde_outer, total_traj)
     ade = sum(ade_outer) / (total_traj * args.pred_len)
     fde = sum(fde_outer) / (total_traj)
     return ade, fde
