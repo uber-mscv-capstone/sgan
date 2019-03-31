@@ -80,17 +80,19 @@ def evaluate(args, loader, generator, num_samples):
                 ade_error = displacement_error(
                     pred_traj_fake, pred_traj_gt, mode='raw'
                 )
-                # print ("ADE Error: ", ade_error, len(ade_error))
                 ade.append(ade_error)
                 fde_error = final_displacement_error(
                     pred_traj_fake[-1], pred_traj_gt[-1], mode='raw'
                 )
                 fde.append(fde_error)
-                # print("FDE Error: ", fde_error, len(fde_error))
-            print ("ADE Error: ", ade_sum)
-            print ("FDE Error: ", fde_sum)
+            
+            print ("ADE Error: ", ade)
+            print ("FDE Error: ", fde)
+            print ("Sequence: ", seq_start_end)
             ade_sum = evaluate_helper(ade, seq_start_end)
             fde_sum = evaluate_helper(fde, seq_start_end)
+            # print ("ADE Error: ", ade_sum)
+            # print ("FDE Error: ", fde_sum)
 
             ade_outer.append(ade_sum)
             fde_outer.append(fde_sum)
