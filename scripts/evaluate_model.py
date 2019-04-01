@@ -17,7 +17,6 @@ parser.add_argument('--model_path', type=str)
 parser.add_argument('--num_samples', default=20, type=int)
 parser.add_argument('--dset_type', default='test', type=str)
 
-
 def get_generator(checkpoint):
     args = AttrDict(checkpoint['args'])
     generator = TrajectoryGenerator(
@@ -77,6 +76,7 @@ def evaluate(args, loader, generator, num_samples):
                 pred_traj_fake = relative_to_abs(
                     pred_traj_fake_rel, obs_traj[-1]
                 )
+                print (pred_traj_fake, pred_traj_gt)
                 ade_error = displacement_error(
                     pred_traj_fake, pred_traj_gt, mode='raw'
                 )
@@ -86,9 +86,9 @@ def evaluate(args, loader, generator, num_samples):
                 )
                 fde.append(fde_error)
             
-            print ("ADE Error: ", ade)
-            print ("FDE Error: ", fde)
-            print ("Sequence: ", seq_start_end)
+            # print ("ADE Error: ", ade)
+            # print ("FDE Error: ", fde)
+            # print ("Sequence: ", seq_start_end)
             ade_sum = evaluate_helper(ade, seq_start_end)
             fde_sum = evaluate_helper(fde, seq_start_end)
             # print ("ADE Error: ", ade_sum)
@@ -99,7 +99,6 @@ def evaluate(args, loader, generator, num_samples):
     ade = sum(ade_outer) / (total_traj * args.pred_len)
     fde = sum(fde_outer) / (total_traj)
     return ade, fde
-
 
 def main(args):
     if os.path.isdir(args.model_path):
@@ -120,7 +119,6 @@ def main(args):
         ade, fde = evaluate(_args, loader, generator, args.num_samples)
         print('Dataset: {}, Pred Len: {}, ADE: {:.2f}, FDE: {:.2f}'.format(
             _args.dataset_name, _args.pred_len, ade, fde))
-
 
 if __name__ == '__main__':
     args = parser.parse_args()
